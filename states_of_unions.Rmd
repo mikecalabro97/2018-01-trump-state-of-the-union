@@ -1,0 +1,20 @@
+---
+title: "State of the Union"
+author: "Michael Calabro"
+date: "10/29/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+pres = read_csv("data/presidents.csv")
+sou = read_csv("data/sou.csv")
+```
+```{r}
+pres
+sou
+```
+
