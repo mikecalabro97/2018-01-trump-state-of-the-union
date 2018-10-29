@@ -13,7 +13,9 @@ library(tidyverse)
 pres = read_csv("data/presidents.csv")
 sou = read_csv("data/sou.csv")
 ```
-```{r}
-sou
+
+```{r process, warning=FALSE, message=FALSE}
+sou <- sou %>%
+  left_join(pres)
 ```
 
