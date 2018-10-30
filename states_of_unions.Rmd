@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(tidytext)
 
 pres = read_csv("data/presidents.csv")
 sou = read_csv("data/sou.csv")
@@ -18,4 +19,30 @@ sou = read_csv("data/sou.csv")
 sou <- sou %>%
   left_join(pres)
 ```
+```{r}
+tidy_sou <- sou %>%
+  unnest_tokens(word, text)
+```
+
+
+```{r}
+afinn <- get_sentiments("afinn")
+
+x <- tidy_sou %>%
+  inner_join(afinn) %>%
+  group_by(president, date) %>%
+  summarize(count = mean(score)) %>%
+  arrange(desc(count)) %>%
+  left_join(pres) %>%
+  filter(party %in% c("Republican", "Democratic"))
+
+x %>%
+  ggplot(aes(x = date, y = count)) + geom_point() + facet_wrap(~party)
+
+x %>%
+  ggplot(aes(x = date, y = count, color = party)) + geom_point() + geom_smooth()
+
+```
+
+
 
